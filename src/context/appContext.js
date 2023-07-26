@@ -73,7 +73,7 @@ const AppProvider = ({ children }) => {
 
     // Axios custom Instance
     const authFetch = axios.create({
-        baseURL: '/api/v1',
+        baseURL: 'https://jobify-server-bdt2.onrender.com/api/v1',
     });
 
     authFetch.interceptors.request.use((config) => {
