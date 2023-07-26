@@ -7,6 +7,18 @@
       {
         "source": "/api/v1/auth/register",
         "destination": "https://jobify-server-bdt2.onrender.com/api/v1/auth/register"
+      },
+      {
+        "source": "/api/v1/auth/updateUser",
+        "destination": "https://jobify-server-bdt2.onrender.com/api/v1/auth/updateUser"
+      },
+      {
+        "source": "/api/v1/jobs",
+        "destination": "https://jobify-server-bdt2.onrender.com/api/v1/jobs"
+      },
+      {
+        "source": "/api/v1/jobs/path*",
+        "destination": "https://jobify-server-bdt2.onrender.com/api/v1/jobs/path*"
       }
     ]
   }
