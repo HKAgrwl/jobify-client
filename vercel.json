@@ -17,6 +17,10 @@
         "destination": "https://jobify-server-bdt2.onrender.com/api/v1/jobs"
       },
       {
+        "source": "/api/v1/jobs/stats",
+        "destination": "https://jobify-server-bdt2.onrender.com/api/v1/jobs/stats"
+      },
+      {
         "source": "/api/v1/jobs/path*",
         "destination": "https://jobify-server-bdt2.onrender.com/api/v1/jobs/path*"
       }
