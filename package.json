@@ -15,6 +15,7 @@
     "react-icons": "^4.7.1",
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.1",
+    "recharts": "^2.7.3",
     "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4"
   },
@@ -42,5 +43,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://jobify-server-bdt2.onrender.com/"
+  "proxy": "http://localhost:4000"
 }

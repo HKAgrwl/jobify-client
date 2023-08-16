@@ -24,7 +24,7 @@ export default function Landing() {
                     job<span>tracking</span> app
                 </h1>
                 <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum placeat, architecto esse, itaque labore voluptatum, eligendi odit sequi eveniet illo dicta atque accusamus.
+                    Jobify is your companion for tracking your job applications in an interesting and insightful way.
                 </p>
                 <button className='btn btn-hero' onClick={handleClick}>Login/Register</button>
             </div>

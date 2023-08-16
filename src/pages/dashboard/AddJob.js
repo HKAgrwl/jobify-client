@@ -54,7 +54,7 @@ export default function AddJob() {
 
         <FormRowSelect name="status" value={status} handleChange={handleJobInput} list={statusOptions} />
         <FormRowSelect name="jobType" labelText="Type" value={jobType} handleChange={handleJobInput} list={jobTypeOptions} />
-
+        <br />
         <div className="btn-container">
           <button type='submit' className='btn btn-block submit-btn' onClick={handleSubmit} disabled={isLoading}>
               submit

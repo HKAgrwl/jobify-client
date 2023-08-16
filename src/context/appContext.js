@@ -28,7 +28,10 @@ import {
     EDIT_JOB_BEGIN,
     EDIT_JOB_SUCCESS,
     EDIT_JOB_ERROR,
-    DELETE_JOB_BEGIN
+    DELETE_JOB_BEGIN,
+    SHOW_STATS_BEGIN,
+    SHOW_STATS_SUCCESS,
+    CLEAR_FILTERS,
 } from "./actions";
 
 const token = localStorage.getItem('token')
@@ -58,6 +61,13 @@ const initialState = {
     totalJobs: 0,
     numOfPages: 1,
     page: 1,
+    stats: {},
+    monthlyApplications: [],
+    search: '',
+    searchStatus: 'all',
+    searchType: 'all',
+    sort: 'latest',
+    sortOptions: ['latest', 'oldest', 'a-z', 'z-a'],
 }
 
 // declaring appContext as the global context
@@ -199,6 +209,10 @@ const AppProvider = ({ children }) => {
         })
     }
 
+    const clearFilters = () => {
+        dispatch({ type: CLEAR_FILTERS });
+    };
+
     const clearValues = () => {
         dispatch({ type: CLEAR_VALUES })
     }
@@ -231,12 +245,16 @@ const AppProvider = ({ children }) => {
     };
 
     const getJobs = async () => {
-        let url = `/jobs`
-
-        dispatch({ type: GET_JOBS_BEGIN })
+        // will add page later
+        const { search, searchStatus, searchType, sort } = state;
+        let url = `/jobs?status=${searchStatus}&jobType=${searchType}&sort=${sort}`;
+        if (search) {
+            url = url + `&search=${search}`;
+        }
+        dispatch({ type: GET_JOBS_BEGIN });
         try {
-            const { data } = await authFetch(url)
-            const { jobs, totalJobs, numOfPages } = data
+            const { data } = await authFetch(url);
+            const { jobs, totalJobs, numOfPages } = data;
             dispatch({
                 type: GET_JOBS_SUCCESS,
                 payload: {
@@ -244,14 +262,12 @@ const AppProvider = ({ children }) => {
                     totalJobs,
                     numOfPages,
                 },
-            })
-            console.log('Done')
+            });
         } catch (error) {
-            console.log(error.response)
             // logoutUser()
         }
-        clearAlert()
-    }
+        clearAlert();
+    };
 
     const setEditJob = (id) => {
         dispatch({ type: SET_EDIT_JOB, payload: { id } })
@@ -261,7 +277,6 @@ const AppProvider = ({ children }) => {
         dispatch({ type: EDIT_JOB_BEGIN });
         try {
             const { position, company, jobLocation, jobType, status } = state;
-            console.log(state.editJobId);
             await authFetch.patch(`/jobs/${state.editJobId}`, {
                 company,
                 position,
@@ -293,7 +308,26 @@ const AppProvider = ({ children }) => {
         }
     };
 
-    return <AppContext.Provider value={{ ...state, displayAlert, registerUser, loginUser, toggleSidebar, logoutUser, updateUser, handleChange, clearValues, createJob, getJobs, setEditJob, deleteJob, editJob }}>
+    const showStats = async () => {
+        dispatch({ type: SHOW_STATS_BEGIN })
+        try {
+            const { data } = await authFetch('/jobs/stats')
+            dispatch({
+                type: SHOW_STATS_SUCCESS,
+                payload: {
+                    stats: data.defaultStats,
+                    monthlyApplications: data.monthlyApplications,
+                },
+            })
+        } catch (error) {
+            console.log(error.response)
+            // logoutUser()
+        }
+
+        clearAlert()
+    }
+
+    return <AppContext.Provider value={{ ...state, displayAlert, registerUser, loginUser, toggleSidebar, logoutUser, updateUser, handleChange, clearValues, createJob, getJobs, setEditJob, deleteJob, editJob, showStats, clearFilters }}>
         {children}
     </AppContext.Provider>
 }
